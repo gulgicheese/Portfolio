@@ -1,0 +1,92 @@
+body {
+  margin: 0;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  background: #f5f6f8;
+  color: #1a1a2e;
+}
+
+#root {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+header h1 {
+  margin-bottom: 4px;
+  color: #5d5727;
+}
+
+header p {
+  color: #666;
+  margin-top: 0;
+  padding-top: 20px;
+}
+
+/* Summary cards row */
+.summary-row {
+  display: flex;
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.summary-card {
+  flex: 1;
+  background: white;
+  border-radius: 10px;
+  padding: 16px 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.summary-label {
+  color: #888;
+  font-size: 13px;
+  margin: 0 0 6px 0;
+}
+
+.summary-value {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+th {
+  text-align: left;
+  padding: 12px 16px;
+  background: #1a1a2e;
+  color: white;
+  font-size: 13px;
+}
+
+td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+tbody tr:hover {
+  background: #f9f9fb;
+}
+
+.picker-row {
+  margin: 16px 0;
+}
+
+.picker-row select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
