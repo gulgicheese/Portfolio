@@ -1,27 +1,28 @@
-type Holdiing = {
-  ticker: string;
-  company: string;
-  tradeType: string;
-  amountRange: string;
-  txDate: string;
-  currentPrice: number;
-  dayChange: number;
+export type Holding = {
+  symbol: string;
+  assetDescription: string;
+  type: string;
+  amount: string;
+  transactionDate: string;
+  firstName: string;
+  lastName: string;
 };
 
 type HoldingRowProps = {
-  holding: Holdiing;
+  holding: Holding;
 };
 
 function HoldingRow({ holding }: HoldingRowProps) {
   return (
     <tr>
-      <td>{holding.ticker}</td>
-      <td>{holding.company}</td>
-      <td>{holding.tradeType}</td>
-      <td>{holding.amountRange}</td>
-      <td>{holding.txDate}</td>
-      <td>{holding.currentPrice.toFixed(2)}</td>
-      <td>{holding.dayChange.toFixed(2)}</td>
+      <td>{holding.symbol}</td>
+      <td>{holding.assetDescription}</td>
+      <td>
+        {holding.firstName} {holding.lastName}
+      </td>
+      <td>{holding.type}</td>
+      <td>{holding.amount}</td>
+      <td>{holding.transactionDate}</td>
     </tr>
   );
 }
