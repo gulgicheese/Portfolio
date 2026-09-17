@@ -11,6 +11,7 @@ function App() {
   const [error, setError] = useState("");
   const [selectedMember, setSelectedMember] = useState("All");
 
+  // first API call to get the senate trades data from the FMP API.
   useEffect(() => {
     async function loadTrades() {
       try {
@@ -43,6 +44,52 @@ function App() {
     selectedMember === "All"
       ? trades
       : trades.filter((t) => `${t.firstName} ${t.lastName}` === selectedMember);
+
+  // Below is the second API call for price and dayChange, ONLY when specific member is selected, to avoid unnecessary API calls.
+  const [prices, setPrices] = useState<
+    Record<string, { price: number; change: number }>
+  >({});
+
+  // putting a guard to prevent loading all prices for all members, which will spam the API quota
+  useEffect(() => {
+    if (selectedMember === "All") {
+      setPrices({});
+      return;
+    }
+
+    async function loadPrices() {
+      const key = import.meta.env.VITE_FMP_KEY;
+      const symbolsToPrice = trades
+        .filter((t) => `${t.firstName} ${t.lastName}` === selectedMember)
+        .map((t) => t.symbol);
+      const uniqueSymbols = [...new Set(symbolsToPrice)];
+
+      const newPrices: Record<string, { price: number; change: number }> = {};
+      for (const symbol of uniqueSymbols) {
+        try {
+          const response = await fetch(
+            `https://financialmodelingprep.com/stable/quote-short?symbol=${symbol}&apikey=${key}`,
+          );
+          if (!response.ok) continue;
+          const data = await response.json();
+          // print out the symbol and data to debug why some symbols are not returning data
+          console.log(symbol, data);
+
+          if (data[0]) {
+            newPrices[symbol] = {
+              price: data[0].price,
+              change: data[0].change,
+            };
+          }
+        } catch (err) {
+          console.error(`Failed to fetch price for ${symbol}`, err);
+        }
+      }
+      setPrices(newPrices);
+    }
+
+    loadPrices();
+  }, [selectedMember, trades]);
 
   return (
     <>
@@ -84,11 +131,20 @@ function App() {
               <th>Type</th>
               <th>Amount</th>
               <th>Transaction Date</th>
+              <th>Current Price</th>
+              <th>Day Change</th>
             </tr>
           </thead>
           <tbody>
             {visibleTrades.map((holding, index) => (
-              <HoldingRow key={index} holding={holding} />
+              <HoldingRow
+                key={index}
+                holding={{
+                  ...holding,
+                  currentPrice: prices[holding.symbol]?.price,
+                  change: prices[holding.symbol]?.change,
+                }}
+              />
             ))}
           </tbody>
         </table>

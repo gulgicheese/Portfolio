@@ -6,6 +6,8 @@ export type Holding = {
   transactionDate: string;
   firstName: string;
   lastName: string;
+  currentPrice?: number;
+  change?: number;
 };
 
 type HoldingRowProps = {
@@ -23,6 +25,14 @@ function HoldingRow({ holding }: HoldingRowProps) {
       <td>{holding.type}</td>
       <td>{holding.amount}</td>
       <td>{holding.transactionDate}</td>
+      <td>
+        {holding.currentPrice != null
+          ? `$${holding.currentPrice.toFixed(2)}`
+          : "..."}
+      </td>
+      <td>
+        {holding.change != null ? `$${holding.change.toFixed(2)}` : "..."}
+      </td>
     </tr>
   );
 }
