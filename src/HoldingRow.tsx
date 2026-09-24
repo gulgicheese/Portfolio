@@ -30,8 +30,18 @@ function HoldingRow({ holding }: HoldingRowProps) {
           ? `$${holding.currentPrice.toFixed(2)}`
           : "..."}
       </td>
-      <td>
-        {holding.change != null ? `$${holding.change.toFixed(2)}` : "..."}
+      <td
+        style={{
+          color:
+            holding.change == null
+              ? "gray"
+              : holding.change >= 0
+                ? "green"
+                : "red",
+        }}
+      >
+        {" "}
+        {holding.change != null ? holding.change.toFixed(2) : "..."}
       </td>
     </tr>
   );

@@ -79,7 +79,9 @@ function App() {
           // print out the symbol and data to debug why some symbols are not returning data
           console.log(symbol, data);
 
-          // accessing the json object from API, starting from the 0 index item = symbol, this prevents invalid ticker's price show up.
+          // accessing the first json object from API: {symbol, price, change} and store it in newPrices object, if data is not empty, then grab the first object and store its price and change as the newPrices.
+          // it will bypass object with empty ticker which will response with empty array []
+          // and only store valid data into newPrices.
           // grab its price and change as the new Prices.
           if (data[0]) {
             newPrices[symbol] = {
@@ -92,6 +94,7 @@ function App() {
         }
       }
       setPrices(newPrices);
+      // calling setPrice outside of the loop to avoid multiple re-renders and API calls, which will cause the app to crash due to too many requests. (i.e. no constant re-rendering on every ticker)
     }
 
     loadPrices();
