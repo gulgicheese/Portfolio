@@ -6,6 +6,7 @@ import SummaryCard from "./SummaryCard";
 import { useState, useEffect } from "react";
 
 function App() {
+  // setting the useState hooks at first since it has to go on top
   const [trades, setTrades] = useState<Holding[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -24,6 +25,7 @@ function App() {
         }
 
         const data = await response.json();
+        // unwrap the json data to get the trades array and change the "Trades" info
         setTrades(data);
       } catch (err) {
         setError("Could not load trades. Check your connect or API key.");
@@ -35,11 +37,13 @@ function App() {
     loadTrades();
   }, []);
 
+  // using Set to get unique member names from trades data and dropdown list, with hardcoded "All" goes first
   const memberNames = [
     "All",
     ...new Set(trades.map((t) => `${t.firstName} ${t.lastName}`)),
   ];
 
+  // Ternary condition to filter trades based on names, show all trades if "All" is selected
   const visibleTrades =
     selectedMember === "All"
       ? trades
@@ -75,6 +79,8 @@ function App() {
           // print out the symbol and data to debug why some symbols are not returning data
           console.log(symbol, data);
 
+          // accessing the json object from API, starting from the 0 index item = symbol, this prevents invalid ticker's price show up.
+          // grab its price and change as the new Prices.
           if (data[0]) {
             newPrices[symbol] = {
               price: data[0].price,
