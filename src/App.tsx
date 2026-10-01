@@ -4,6 +4,7 @@ import HoldingRow from "./HoldingRow";
 import type { Holding } from "./HoldingRow";
 import SummaryCard from "./SummaryCard";
 import { useState, useEffect } from "react";
+import AllocationChart from "./allocationChart";
 
 function App() {
   // setting the useState hooks at first since it has to go on top
@@ -48,6 +49,13 @@ function App() {
     selectedMember === "All"
       ? trades
       : trades.filter((t) => `${t.firstName} ${t.lastName}` === selectedMember);
+
+  // sorting the transactionDate in descending order, so the latest trades will be shown first.
+  const sortedTrades = [...visibleTrades].sort(
+    (a, b) =>
+      new Date(b.transactionDate).getTime() -
+      new Date(a.transactionDate).getTime(),
+  );
 
   // Below is the second API call for price and dayChange, ONLY when specific member is selected, to avoid unnecessary API calls.
   const [prices, setPrices] = useState<
@@ -127,37 +135,45 @@ function App() {
         />
       </div>
 
+      {/* placing allocation chart */}
+      <AllocationChart trades={visibleTrades} />
+
       {loading && <p>Loading trades...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
 
-      {!loading && !error && (
-        <table>
-          <thead>
-            <tr>
-              <th>Ticker</th>
-              <th>Company</th>
-              <th>Member</th>
-              <th>Type</th>
-              <th>Amount</th>
-              <th>Transaction Date</th>
-              <th>Current Price</th>
-              <th>Day Change</th>
-            </tr>
-          </thead>
-          <tbody>
-            {visibleTrades.map((holding, index) => (
-              <HoldingRow
-                key={index}
-                holding={{
-                  ...holding,
-                  currentPrice: prices[holding.symbol]?.price,
-                  change: prices[holding.symbol]?.change,
-                }}
-              />
-            ))}
-          </tbody>
-        </table>
-      )}
+      {/* including error handling message if no trade available for a particular member */}
+      {!loading &&
+        !error &&
+        (visibleTrades.length === 0 ? (
+          <p>No trades found for {selectedMember}.</p>
+        ) : (
+          <table>
+            <thead>
+              <tr>
+                <th>Ticker</th>
+                <th>Company</th>
+                <th>Member</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Transaction Date</th>
+                <th>Current Price</th>
+                <th>Day Change</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sortedTrades.map((holding, index) => (
+                <HoldingRow
+                  key={index}
+                  holding={{
+                    ...holding,
+                    currentPrice: prices[holding.symbol]?.price,
+                    change: prices[holding.symbol]?.change,
+                  }}
+                />
+              ))}
+            </tbody>
+          </table>
+        ))}
     </>
   );
 }
