@@ -5,6 +5,7 @@ import type { Holding } from "./HoldingRow";
 import SummaryCard from "./SummaryCard";
 import { useState, useEffect } from "react";
 import AllocationChart from "./allocationChart";
+import Footer from "./Footer";
 
 function App() {
   // setting the useState hooks at first since it has to go on top
@@ -111,9 +112,8 @@ function App() {
   return (
     <>
       <Header />
-
       <div className="picker-row">
-        <label htmlFor="member">Filter by member: </label>
+        <label htmlFor="member">Filter by member:</label>
         <select
           id="member"
           value={selectedMember}
@@ -126,21 +126,22 @@ function App() {
           ))}
         </select>
       </div>
+      <div className="dashboard-header">
+        <div className="summary-row">
+          <SummaryCard label="Trades Shown" value={`${visibleTrades.length}`} />
+          <SummaryCard
+            label="Total Members"
+            value={`${memberNames.length - 1}`}
+          />
+        </div>
 
-      <div className="summary-row">
-        <SummaryCard label="Trades Shown" value={`${visibleTrades.length}`} />
-        <SummaryCard
-          label="Total Members"
-          value={`${memberNames.length - 1}`}
-        />
+        {/* placing allocation chart */}
+        <div className="chart-section">
+          <AllocationChart trades={visibleTrades} />
+        </div>
       </div>
-
-      {/* placing allocation chart */}
-      <AllocationChart trades={visibleTrades} />
-
       {loading && <p>Loading trades...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
-
       {/* including error handling message if no trade available for a particular member */}
       {!loading &&
         !error &&
@@ -174,6 +175,8 @@ function App() {
             </tbody>
           </table>
         ))}
+      {/* adding disclaimer footer to the bottom of the page, to inform users about the data source and API limitations. */}
+      <Footer />;
     </>
   );
 }

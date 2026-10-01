@@ -12,7 +12,7 @@ type AllocationChartProps = {
   trades: Holding[];
 };
 
-const COLORS = ["#2d6a4f", "#c1121f"];
+const COLORS = ["#30805c", "#c1121f"];
 
 function AllocationChart({ trades }: AllocationChartProps) {
   const purchaseCount = trades.filter((t) => t.type === "Purchase").length;
@@ -25,9 +25,15 @@ function AllocationChart({ trades }: AllocationChartProps) {
 
   return (
     <div
-      style={{ width: "100%", height: 300, marginTop: 10, marginBottom: 10 }}
+      style={{
+        width: "100%",
+        height: 300,
+        marginTop: 5,
+        marginBottom: 30,
+        alignItems: "center",
+      }}
     >
-      <h3>Purchase vs Sale</h3>
+      <h3 style={{ color: "#162660" }}>Purchase vs Sale</h3>
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie
@@ -36,7 +42,6 @@ function AllocationChart({ trades }: AllocationChartProps) {
             nameKey="name"
             cx="50%"
             cy="50%"
-            outerRadius={100}
             label
           >
             {data.map((entry, index) => (

@@ -1,47 +1,56 @@
 body {
   margin: 0;
-  font-family:
-    system-ui,
-    -apple-system,
-    sans-serif;
-  background: #f5f6f8;
-  color: #1a1a2e;
+  font-family: georgia, "Times New Roman", Times, serif;
+  background: #ded3c3;
+  color: #e4e8f0;
 }
 
 #root {
   max-width: 1400px;
   padding: 24px;
+  margin: 0 auto;
 }
 
 header h1 {
   margin-bottom: 4px;
-  color: #5d5727;
-  align-content: center;
+  color: #162660;
+  font-family: Georgia, "Times New Roman", Times, serif;
 }
 
 header p {
-  color: #666;
+  color: #8b94a8;
   margin-top: 0;
-  padding-top: 20px;
 }
 
 /* Summary cards row */
+.dashboard-header {
+  display: flex;
+  gap: 24px;
+  margin: 24ox 0;
+  align-items: center;
+}
+
 .summary-row {
   display: flex;
+  flex-direction: column;
   gap: 16px;
-  margin: 24px 0;
+  flex: 1;
+}
+
+.chart-section {
+  flex: 1;
 }
 
 .summary-card {
   flex: 1;
-  background: white;
+  background: #b0835b;
+  border: 1px solid #b0835b;
   border-radius: 10px;
   padding: 16px 20px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .summary-label {
-  color: #888;
+  color: #354056;
   font-size: 13px;
   margin: 0 0 6px 0;
 }
@@ -50,47 +59,58 @@ header p {
   font-size: 24px;
   font-weight: 600;
   margin: 0;
+  color: #e4e8f0;
 }
 
 /* Table */
 table {
   width: 100%;
   border-collapse: collapse;
-  background: white;
+  background: #c6ad88;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  border: 1px solid #8e7835c2;
 }
 
 th {
   text-align: center;
   padding: 12px 16px;
-  background: #1a1a2e;
-  color: white;
+  background: #b0835b;
+  color: #e4e8f0;
   font-size: 13px;
 }
 
 td {
   padding: 12px 16px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #2a3348;
   font-size: 14px;
-  text-overflow: clip;
   white-space: nowrap;
-  overflow: hidden;
   text-align: center;
+  color: #d7dced;
 }
 
 tbody tr:hover {
-  background: #f9f9fb;
+  background: #857558;
 }
 
 .picker-row {
   margin: 16px 0;
+  color: #162660;
 }
 
 .picker-row select {
   padding: 6px 10px;
   border-radius: 6px;
-  border: 1px solid #ccc;
+  border: 1px solid #876241;
+  background: #876241;
+  color: #e4e8f0;
   font-size: 14px;
+}
+
+footer {
+  margin-top: 40px;
+  padding-top: 16px;
+  border-top: 1px solid #2a3348;
+  color: #8b94a8;
+  font-size: 13px;
 }

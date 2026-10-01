@@ -24,7 +24,7 @@ body {
 
 h1,
 h2 {
-  font-family: var(--heading);
+  font-family: georgia, "Times New Roman", Times, serif;
   font-weight: 500;
   color: var(--text-h);
 }
