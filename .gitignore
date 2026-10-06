@@ -1,4 +1,20 @@
-*
-!src/
-!src/**
-!.gitignore
+# Dependencies
+node_modules
+
+# Build output
+dist
+dist-ssr
+
+# Environment variables (secrets!)
+.env
+.env.local
+
+# Editor / OS junk
+.DS_Store
+*.local
+.vscode/*
+!.vscode/extensions.json
+
+# Logs
+*.log
+npm-debug.log*
