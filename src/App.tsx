@@ -153,6 +153,7 @@ function App() {
               <tr>
                 <th>Ticker</th>
                 <th>Company</th>
+                <th>Description</th>
                 <th>Member</th>
                 <th>Type</th>
                 <th>Amount</th>

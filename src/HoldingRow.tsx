@@ -15,10 +15,20 @@ type HoldingRowProps = {
 };
 
 function HoldingRow({ holding }: HoldingRowProps) {
+  const companyName = holding.assetDescription
+    .split("Company:")[0] // Extract the company name before "Company"
+    .split(" - ")[0] // Further split by " - " to get the first part
+    .trim();
+
+  const description = holding.assetDescription.includes("Description")
+    ? holding.assetDescription.split("Description:")[1].trim()
+    : "-"; // Extract the description after "Company"
+
   return (
     <tr>
       <td>{holding.symbol}</td>
-      <td>{holding.assetDescription}</td>
+      <td>{companyName}</td>
+      <td>{description}</td>
       <td>
         {holding.firstName} {holding.lastName}
       </td>
