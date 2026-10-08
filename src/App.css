@@ -2,7 +2,7 @@ body {
   margin: 0;
   font-family: georgia, "Times New Roman", Times, serif;
   background: #ded3c3;
-  color: #e4e8f0;
+  color: #8b94a8;
 }
 
 #root {
@@ -77,7 +77,7 @@ th {
   text-align: center;
   padding: 12px 16px;
   background: #b0835b;
-  color: #e4e8f0;
+  color: #162660;
   font-size: 13px;
 }
 
@@ -87,7 +87,7 @@ td {
   font-size: 14px;
   white-space: nowrap;
   text-align: center;
-  color: #d7dced;
+  color: #162660;
 }
 
 tbody tr:hover {

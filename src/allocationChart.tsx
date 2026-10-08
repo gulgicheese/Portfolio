@@ -15,8 +15,10 @@ type AllocationChartProps = {
 const COLORS = ["#30805c", "#c1121f"];
 
 function AllocationChart({ trades }: AllocationChartProps) {
-  const purchaseCount = trades.filter((t) => t.type === "Purchase").length;
-  const saleCount = trades.filter((t) => t.type === "Sale").length;
+  const purchaseCount = trades.filter((t) =>
+    t.type.includes("Purchase"),
+  ).length;
+  const saleCount = trades.filter((t) => t.type.includes("Sale")).length;
 
   const data = [
     { name: "Purchase", value: purchaseCount },
