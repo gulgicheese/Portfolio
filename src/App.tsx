@@ -15,13 +15,11 @@ function App() {
   const [selectedMember, setSelectedMember] = useState("All");
 
   // first API call to get the senate trades data from the FMP API.
+  // swabbed out the fetch URL to localhost:3000/api/trades, which is the endpoint of the backend server that I created to handle the API call to FMP API, and return the data to the frontend.
   useEffect(() => {
     async function loadTrades() {
       try {
-        const key = import.meta.env.VITE_FMP_KEY;
-        const response = await fetch(
-          `https://financialmodelingprep.com/stable/senate-latest?apikey=${key}`,
-        );
+        const response = await fetch("http://localhost:3000/api/trades");
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
