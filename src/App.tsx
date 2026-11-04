@@ -69,41 +69,30 @@ function App() {
     }
 
     async function loadPrices() {
-      const key = import.meta.env.VITE_FMP_KEY;
       const symbolsToPrice = trades
         .filter((t) => `${t.firstName} ${t.lastName}` === selectedMember)
         .map((t) => t.symbol);
       const uniqueSymbols = [...new Set(symbolsToPrice)];
 
-      const newPrices: Record<string, { price: number; change: number }> = {};
-      for (const symbol of uniqueSymbols) {
-        try {
-          const response = await fetch(
-            `https://financialmodelingprep.com/stable/quote-short?symbol=${symbol}&apikey=${key}`,
-          );
-          if (!response.ok) continue;
-          const data = await response.json();
-          // print out the symbol and data to debug why some symbols are not returning data
-          console.log(symbol, data);
-
-          // accessing the first json object from API: {symbol, price, change} and store it in newPrices object, if data is not empty, then grab the first object and store its price and change as the newPrices.
-          // it will bypass object with empty ticker which will response with empty array []
-          // and only store valid data into newPrices.
-          // grab its price and change as the new Prices.
-          if (data[0]) {
-            newPrices[symbol] = {
-              price: data[0].price,
-              change: data[0].change,
-            };
-          }
-        } catch (err) {
-          console.error(`Failed to fetch price for ${symbol}`, err);
-        }
+      // if nothing to price? clear and stop
+      if (uniqueSymbols.length === 0) {
+        setPrices({});
+        return;
       }
-      setPrices(newPrices);
-      // calling setPrice outside of the loop to avoid multiple re-renders and API calls, which will cause the app to crash due to too many requests. (i.e. no constant re-rendering on every ticker)
-    }
 
+      try {
+        // fetch from server endpoint
+        const response = await fetch(
+          `http://localhost:3000/api/prices?symbols=${uniqueSymbols.join(",")}`,
+        );
+        if (!response.ok)
+          throw new Error(`HTTP error! status: ${response.status}`);
+        const data = await response.json();
+        setPrices(data);
+      } catch (err) {
+        console.error("Failed to fetch prices", err);
+      }
+    }
     loadPrices();
   }, [selectedMember, trades]);
 
@@ -175,7 +164,7 @@ function App() {
           </table>
         ))}
       {/* adding disclaimer footer to the bottom of the page, to inform users about the data source and API limitations. */}
-      <Footer />;
+      <Footer />
     </>
   );
 }
