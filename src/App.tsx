@@ -13,13 +13,14 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [selectedMember, setSelectedMember] = useState("All");
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
   // first API call to get the senate trades data from the FMP API.
   // swabbed out the fetch URL to localhost:3000/api/trades, which is the endpoint of the backend server that I created to handle the API call to FMP API, and return the data to the frontend.
   useEffect(() => {
     async function loadTrades() {
       try {
-        const response = await fetch("http://localhost:3000/api/trades");
+        const response = await fetch(`${API_URL}/api/trades`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -83,7 +84,7 @@ function App() {
       try {
         // fetch from server endpoint
         const response = await fetch(
-          `http://localhost:3000/api/prices?symbols=${uniqueSymbols.join(",")}`,
+          `${API_URL}}/api/prices?symbols=${uniqueSymbols.join(",")}`,
         );
         if (!response.ok)
           throw new Error(`HTTP error! status: ${response.status}`);
