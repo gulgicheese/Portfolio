@@ -84,7 +84,7 @@ function App() {
       try {
         // fetch from server endpoint
         const response = await fetch(
-          `${API_URL}}/api/prices?symbols=${uniqueSymbols.join(",")}`,
+          `${API_URL}/api/prices?symbols=${uniqueSymbols.join(",")}`,
         );
         if (!response.ok)
           throw new Error(`HTTP error! status: ${response.status}`);
