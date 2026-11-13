@@ -115,3 +115,17 @@ footer {
   color: #8b94a8;
   font-size: 13px;
 }
+
+.main-nav {
+  display: flex;
+  gap: 16px;
+  padding: 12px 24px;
+}
+.main-nav a {
+  text-decoration: none;
+  color: var (--accent, #5eead4);
+}
+.main-nav a.active {
+  font-weight: bold;
+  text-decoration: underline;
+}
