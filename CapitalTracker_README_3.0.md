@@ -5,6 +5,7 @@
 A full-stack transparency dashboard for U.S. congressional stock trades, with live market prices. Built with a React frontend, an Express backend, and a PostgreSQL caching layer to stay within API rate limits.
 
 **Available endpoints:**
+
 - `/api/trades`
 - `/api/prices`
 
@@ -30,11 +31,12 @@ After years in institutional consulting and financial services, I repeatedly saw
 3. **Server-side caching** — trades and per-ticker prices are cached in PostgreSQL; the external API is only hit when data is older than the cache window, keeping the app within the provider's free-tier rate limits.
 4. **Hidden API key** — the external API key lives only on the backend in environment variables, and is gitignored as a safety measure. The frontend ships no confidential credentials.
 5. **Allocation chart** — a visual buy/sell breakdown (Recharts).
-6. **Graceful handling of data issues** — displays loading, error, and empty states, and parses messy disclosure text into clean fields.
+6. **Multi-page navigation** - client-side routing (React Router) between the dashboard and an About page, with no full-page reloads (single-page app).
+7. **Graceful handling of data issues** — displays loading, error, and empty states, and parses messy disclosure text into clean fields.
 
 ## Tech Stack
 
-- **Frontend:** React, TypeScript, Vite
+- **Frontend:** React, TypeScript, Vite, React Router
 - **Backend:** Node.js, Express
 - **Database:** PostgreSQL (hosted on Neon)
 - **Charts:** Recharts
@@ -45,12 +47,12 @@ After years in institutional consulting and financial services, I repeatedly saw
 
 This is a three-tier application, not a frontend calling an API directly:
 
-| Layer | Platform | Role |
-|---|---|---|
-| React (TypeScript + Vite) | Vercel | **Frontend.** Renders the dashboard, handles filtering and the allocation chart. Calls only my own backend — never the external API directly. |
-| Express API + Node | Render | **Backend.** Exposes `/api/trades` and `/api/prices`. Holds the external API key server-side as a gatekeeper and owns all external data fetching. |
-| PostgreSQL cache | Neon | **Caching layer.** JSON responses are stored with a timestamp. The backend serves cached data when it's fresh and only re-fetches from the API when it's stale (>60 min). |
-| Financial Modeling Prep API | — | **Source.** External data provider. |
+| Layer                       | Platform | Role                                                                                                                                                                      |
+| --------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| React (TypeScript + Vite)   | Vercel   | **Frontend.** Renders the dashboard, handles filtering and the allocation chart. Calls only my own backend — never the external API directly.                             |
+| Express API + Node          | Render   | **Backend.** Exposes `/api/trades` and `/api/prices`. Holds the external API key server-side as a gatekeeper and owns all external data fetching.                         |
+| PostgreSQL cache            | Neon     | **Caching layer.** JSON responses are stored with a timestamp. The backend serves cached data when it's fresh and only re-fetches from the API when it's stale (>60 min). |
+| Financial Modeling Prep API | —        | **Source.** External data provider.                                                                                                                                       |
 
 - **Two-source data design:** a primary API call fetches all disclosed trades; a second fetches live prices only for the symbols currently in view, to stay within free-tier rate limits.
 - **Quota-aware fetching:** prices are only requested when a specific member is selected (not for the full feed), deliberately trading completeness for API-budget efficiency.
@@ -75,6 +77,7 @@ This is a three-tier application, not a frontend calling an API directly:
 This is two repositories: a frontend and a backend.
 
 **Backend** ([capital_tracker_api](https://github.com/gulgicheese/capital_tracker_api)):
+
 ```bash
 git clone https://github.com/gulgicheese/capital_tracker_api.git
 cd capital_tracker_api
@@ -88,6 +91,7 @@ npm start      # runs on http://localhost:3000
 ```
 
 **Frontend** (this repo):
+
 ```bash
 git clone https://github.com/gulgicheese/[frontend-repo].git
 cd [frontend-folder]
@@ -104,6 +108,7 @@ Get a free API key at [Financial Modeling Prep](https://site.financialmodelingpr
 - Writing type-safe React with TypeScript, using types as data contracts to catch bugs before runtime.
 - Synchronizing a frontend with a backend across environments (CORS, environment variables, deployment).
 - Preventing SQL injection with parameterized queries, and debugging a real cross-system timezone bug.
+- Client-side routing with React Router (routes, `NavLink`, SPA navigation without page reloads).
 - Handling genuinely messy real-world data rather than clean sample data.
 
 ### Next Steps
@@ -115,4 +120,4 @@ Get a free API key at [Financial Modeling Prep](https://site.financialmodelingpr
 
 ---
 
-*Trade data sourced from public STOCK Act disclosures. For informational purposes only — not investment advice.*
+_Trade data sourced from public STOCK Act disclosures. For informational purposes only — not investment advice._
